@@ -78,7 +78,7 @@ from transformers import GPT2LMHeadModel, GPT2TokenizerFast
 
 class GPT2(LargeLanguageModel):
     def __init__(self, model_id="gpt2", device='cpu', verbose = 0):
-        super().__init__(name='GPT2', device=device, verbose = verbose)
+        super().__init__(name=f'GPT2 ({model_id})', device=device, verbose = verbose)
         
         self._model_id = model_id
         self._model = GPT2LMHeadModel.from_pretrained(self._model_id).to(device)
