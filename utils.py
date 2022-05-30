@@ -65,14 +65,21 @@ def plot_results(model_graph_pairings, runs, samples):
             
             data['values'] += p_vals
             data['runs'] += [f"{model}_{graph}" for i in range(runs)]
+
+            print(p_vals)
  
     sns.set_theme(style="ticks")
 
     # Initialize the figure with a logarithmic x axis
     f, ax = plt.subplots(figsize=(7, 6))
 
+    ax.set_xscale('log')
+    ax.set_title('Discriminatory Power of various Models on Knowledge Graph Triples')
+    ax.set_xlabel('p-value on a T-test between (pseudo) perplexity \nvalues of each model on positive vs negative \n samples from the Knowledge Graph')
+    ax.set_ylabel('Model and Graph')
+
     plt.axvline(0.05, label='p = 0.05')
-    plt.xlim(0,1)
+    #plt.xlim(1e-12,1)
 
     plt.legend()
 
