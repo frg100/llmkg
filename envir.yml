@@ -1,0 +1,7 @@
+name: cs224u
+channels:
+  - defaults
+dependencies:
+  - python=3.9
+  - anaconda
+prefix: /Users/frg100/opt/anaconda3/envs/cs224u
