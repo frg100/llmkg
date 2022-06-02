@@ -161,18 +161,19 @@ class BERT(LargeLanguageModel):
             #print(input_ids, input_ids.shape)
             
             nlls = []
-            for mask_idx in range(input_ids[0].shape[0]):
+            for mask_idx in range(1, input_ids[0].shape[0]-1):
                 masked_input_ids = input_ids.clone().to(self.device)
                 masked_input_ids[0][mask_idx] = self._tokenizer.mask_token_id
                 
                 with torch.no_grad():
-                    outputs = self._model(input_ids).logits[:,mask_idx,:]
+                    outputs = self._model(masked_input_ids).logits[:,mask_idx,:]
                     softmax = F.softmax(outputs, -1)
                     
                     target_id = target_ids[0][mask_idx]
                     nlls.append(softmax[0,target_id])
 
-            perplexity = torch.exp((-1/num_tokens)*torch.log(torch.stack(nlls)).sum())
+            num_words = len(sample_english.split())
+            perplexity = torch.exp((-1/num_words)*torch.log(torch.stack(nlls)).sum())
             if self._verbose >= 2:
                 print(f"[{self._name}] Sample <{sample_english}> has perplexity [{perplexity}]")
             perplexities.append(perplexity.item())

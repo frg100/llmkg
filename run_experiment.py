@@ -47,7 +47,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Run a model-graph discriminatory power experiment.')
     parser.add_argument('--family', type=str, required=True,
                         help='The model family', choices=['GPT2', 'BERT'])
-    parser.add_argument('--model', type=str, required=True,
+    parser.add_argument('--model', type=str,
                         help='The model type',
                         choices=['gpt2', 'gpt2-large'])
 
