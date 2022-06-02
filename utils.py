@@ -92,3 +92,5 @@ def plot_results(model_graph_pairings, runs, samples):
     #Add in points to show each observation
     sns.stripplot(x="values", y="runs", data=data,
                size=4, color=".3", linewidth=0)
+
+    return f
