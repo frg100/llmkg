@@ -17,7 +17,12 @@ def main(args):
             splits=['train', 'valid','test'],
             verbose=args.verbose
         )
-
+    elif args.graph == 'WN18RR':
+        graph = graphs.WN18RR(
+            base_path='./data/WN18RR/text',
+            splits=['train', 'valid','test'],
+            verbose=args.verose
+        )
     # Choose device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     if args.verbose >= 2:
@@ -52,7 +57,7 @@ if __name__ == '__main__':
                         choices=['gpt2', 'gpt2-large'])
 
     parser.add_argument('--graph', type=str, required=True,
-                        help='The graph', choices=['FB15k237'])
+                        help='The graph', choices=['FB15k237', 'WN18RR'])
 
     parser.add_argument('--runs', type=int, required=True,
                         help='The number of experiment runs')
