@@ -1,0 +1,13 @@
+{
+    "_hypernym": "The word {HEAD} is a kind of {TAIL}",
+    "_derivationally_related_form": "The word {HEAD} was derived from the word {TAIL}",
+    "_synset_domain_topic_of": "The word {HEAD} is commonly used in the domain of {TAIL}",
+    "_member_meronym": "The word {TAIL} is a part of {HEAD}",
+    "_instance_hypernym": "The word {HEAD} is a kind of {TAIL}",
+    "_has_part": "The word {TAIL} is part of {HEAD}",
+    "_verb_group": "{HEAD} is a similar kind of action to {TAIL}",
+    "_also_see": "The word {HEAD} is related to {TAIL}",
+    "_member_of_domain_usage": "The word {TAIL} is a {HEAD}",
+    "_member_of_domain_region": "{TAIL} is in or took place in {HEAD}",
+    "_similar_to": "The word {HEAD} is similar to {TAIL}"
+}

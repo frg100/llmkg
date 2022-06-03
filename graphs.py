@@ -173,6 +173,7 @@ class FB15k237(KnowledgeGraph):
         self._splits = splits
         
         self._entity_mapping = None
+        self._relation_mapping = None
         
         start = time.time()
         self._build_graph(verbose)
@@ -238,6 +239,105 @@ class FB15k237(KnowledgeGraph):
                     if not self._id2entity(head) or not self._id2entity(tail):
                         # Don't process it
                         continue
+                    
+                    if verbose >= 3 and percent_done % 5 == 0 and last_percent_done % 5 != 0:
+                        print(f"{self._id2entity(head)} {relation} {self._id2entity(tail)}")
+                    
+                    # Process head
+                    if head not in entities:
+                        entities.add(head)
+                        head_id = len(self._entities)
+                        self._entities.append(head)
+                    else:
+                        head_id = self._entities.index(head)
+                     
+                    # Process tail
+                    if tail not in entities:
+                        entities.add(tail)
+                        tail_id = len(self._entities)
+                        self._entities.append(tail)
+                    else:
+                        tail_id = self._entities.index(tail)
+                        
+                    # Process relation
+                    if relation not in relations:
+                        relations.add(relation)
+                        relation_id = len(self._relations)
+                        self._relations.append(relation)
+                    else:
+                        relation_id = self._relations.index(relation)
+
+                    # Create and add triple
+                    triple = np.array([[head_id, relation_id, tail_id]], dtype=np.int32)  
+                    if self._num_triples == 0:
+                        self._triples = triple
+                    else:
+                        self._triples = np.append(self._triples, triple, axis=0)
+                        
+        # Build and validate
+        self._built = True
+        self._validate_graph()
+        
+
+class WN18RR(KnowledgeGraph):
+    def __init__(self, base_path=None, splits=['train', 'test', 'valid'], verbose = 0):
+        super().__init__(name='WN18RR', verbose = verbose)
+        
+        self._base_path = base_path
+        self._splits = splits
+        
+        self._relation_mapping = None
+        
+        start = time.time()
+        self._build_graph(verbose)
+        end = time.time()
+        if verbose >= 1:
+            print(f"Building the graph took {round(end-start)} seconds")    
+        
+            
+    def _id2entity(self, eid):
+        return eid.split('.')[0].replace('_', ' ')
+    
+    def _id2relation(self, rid):
+        if self._relation_mapping is None:
+            assert False, "Relation mapping must be populated"
+            
+        if rid not in self._relation_mapping:
+            #print(f"Relation with id ({rid}) is not mapped...")
+            return None
+            
+        return self._relation_mapping[rid]
+
+    def _build_graph(self, verbose):
+        # Load the mappings
+        id2relation_path = os.path.join(self._base_path, "relation_mapping.json")
+        self._relation_mapping = self._load_json_mapping(id2relation_path)
+        
+        # Initialize data structures for bookkeeping
+        entities = set()
+        relations = set()
+        triples = set()
+
+        num_data_points = sum(sum(1 for line in open(os.path.join(self._base_path, f"{split}.txt"))) for split in self._splits)
+        
+        # Load data
+        for split in self._splits:
+            path = os.path.join(self._base_path, f"{split}.txt")
+            if verbose >= 1:
+                print(f"Loading file {split}.txt")
+                
+            # Process into entities, relations, and triples
+            with open(path, 'r') as f:
+                for line in f:
+                    # Check progress
+                    last_percent_done = round((100*(self._num_triples-1))/num_data_points)
+                    percent_done = round((100*self._num_triples)/num_data_points)
+                    if verbose >= 2 and percent_done % 5 == 0 and last_percent_done % 5 != 0:
+                        print(f"Data loading progress: [{percent_done}%]")
+                    
+                    # Initialize data
+                    head, relation, tail = line.split()
+                    head_id, relation_id, tail_id = None, None, None
                     
                     if verbose >= 3 and percent_done % 5 == 0 and last_percent_done % 5 != 0:
                         print(f"{self._id2entity(head)} {relation} {self._id2entity(tail)}")
