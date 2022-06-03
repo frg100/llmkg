@@ -66,12 +66,12 @@ def plot_results(model_graph_pairings, runs, samples):
             data['values'] += p_vals
             data['runs'] += [f"{model}_{graph}" for i in range(runs)]
 
-            print(p_vals)
+            print(f"{model}_{graph}", p_vals)
  
     sns.set_theme(style="ticks")
 
     # Initialize the figure with a logarithmic x axis
-    f, ax = plt.subplots(figsize=(7, 6))
+    f, ax = plt.subplots(figsize=(20, 20))
 
     ax.set_xscale('log')
     ax.set_title('Discriminatory Power of various Models on Knowledge Graph Triples')

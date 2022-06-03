@@ -64,8 +64,8 @@ class LargeLanguageModel(ABC):
             print(f"The power of {self.name} on {graph.name} ({examples_per_run} samples) is: [{p_val}]")
             p_vals.append(str(p_val))
 
-        with open(save_path, "w") as outfile:
-            outfile.write("\n".join(p_vals))
+            with open(save_path, "w") as outfile:
+                outfile.write("\n".join(p_vals))
 
         return p_vals
         
@@ -173,7 +173,7 @@ class BERT(LargeLanguageModel):
                     nlls.append(softmax[0,target_id])
 
             num_words = len(sample_english.split())
-            perplexity = torch.exp((-1/num_words)*torch.log(torch.stack(nlls)).sum())
+            perplexity = torch.exp((-1/num_tokens)*torch.log(torch.stack(nlls)).sum())
             if self._verbose >= 2:
                 print(f"[{self._name}] Sample <{sample_english}> has perplexity [{perplexity}]")
             perplexities.append(perplexity.item())
