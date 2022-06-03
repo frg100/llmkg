@@ -66,7 +66,7 @@ def plot_results(model_graph_pairings, runs, samples):
             data['values'] += p_vals
             data['runs'] += [f"{model}_{graph}" for i in range(runs)]
 
-            print(p_vals)
+            print(f"{model}_{graph}", p_vals)
  
     sns.set_theme(style="ticks")
 
