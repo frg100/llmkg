@@ -39,7 +39,8 @@ def main(args):
         model = models.GPT2(model_id=args.model, device=device, verbose=args.verbose)
             
     elif args.family == 'BERT':
-        model = models.BERT(device=device, verbose=args.verbose)
+        assert args.model in ['bert-base-uncased', 'roberta-base'], 'Invalid model-family pair'
+        model = models.BERT(model_id=args.model, device=device, verbose=args.verbose)
 
     # Run experiment
     if args.verbose >= 1:
@@ -54,7 +55,7 @@ if __name__ == '__main__':
                         help='The model family', choices=['GPT2', 'BERT'])
     parser.add_argument('--model', type=str,
                         help='The model type',
-                        choices=['gpt2', 'gpt2-large'])
+                        choices=['gpt2', 'gpt2-large', 'bert-base-uncased', 'roberta-base'])
 
     parser.add_argument('--graph', type=str, required=True,
                         help='The graph', choices=['FB15k237', 'WN18RR'])
