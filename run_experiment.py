@@ -21,7 +21,7 @@ def main(args):
         graph = graphs.WN18RR(
             base_path='./data/WN18RR/text',
             splits=['train', 'valid','test'],
-            verbose=args.verose
+            verbose=args.verbose
         )
     # Choose device
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
