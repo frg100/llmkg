@@ -119,19 +119,22 @@ class GPT2(LargeLanguageModel):
         return perplexities 
 
 from transformers import BertForMaskedLM, BertTokenizer
+from transformers import RobertaForMaskedLM, RobertaTokenizer
 from torch.nn import functional as F
 
 
 class BERT(LargeLanguageModel):
-    def __init__(self, name='BERT', device='cpu', verbose = 0):
-        super().__init__(name=name, device=device, verbose = verbose)
+    def __init__(self, model_id="bert-base-cased", device='cpu', verbose = 0):
+        super().__init__(name=f'BERT_{model_id}', device=device, verbose = verbose)
         
-        self._name = name
-        
-        self._model_id = 'bert-base-cased'
-        self._model = BertForMaskedLM.from_pretrained(self._model_id).to(device)
-        self._tokenizer = BertTokenizer.from_pretrained(self._model_id)
-        
+        self._model_id = model_id
+        if model_id == "bert-base-cased":
+            self._model = BertForMaskedLM.from_pretrained(self._model_id).to(device)
+            self._tokenizer = BertTokenizer.from_pretrained(self._model_id)
+        elif model_id == 'roberta-base':
+            self._model = RobertaForMaskedLM.from_pretrained(self._model_id).to(device)
+            self._tokenizer = RobertaTokenizer.from_pretrained(self._model_id)
+
         self._verbose = verbose
         
         self._built = True
