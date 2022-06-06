@@ -83,9 +83,11 @@ def plot_results(model_graph_pairings, runs, samples):
 
     plt.legend()
 
+    print(pd.DataFrame(data))
+
     #sns.distplot(data['values'], label=)
     #Plot the orbital period with horizontal boxes
-    sns.boxplot(x="values", y="runs", data=data,
+    sns.boxplot(x="values", y="runs", data=pd.DataFrame(data),
                 whis=[0, 100], width=.6, palette="vlag")
 
     
