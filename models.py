@@ -50,7 +50,9 @@ class LargeLanguageModel(ABC):
         pos_samples = graph.sample_english(num_examples)
         neg_samples = graph.sample_english(num_examples, negative=True)
         
+        print("Calculating perplexity of positive samples")
         pos_perplexity = self.batch_perplexity(pos_samples)
+        print("Calculating the perplexity of negative samples")
         neg_perplexity = self.batch_perplexity(neg_samples)
         
         return scipy.stats.ttest_ind(pos_perplexity, neg_perplexity).pvalue
@@ -60,6 +62,7 @@ class LargeLanguageModel(ABC):
         
         p_vals = []
         for i in range(num_runs):
+            print(f"Starting experiment {i}/{num_runs}")
             p_val = self.test_discriminatory_power(graph, examples_per_run)
             print(f"The power of {self.name} on {graph.name} ({examples_per_run} samples) is: [{p_val}]")
             p_vals.append(str(p_val))
