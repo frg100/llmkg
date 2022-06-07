@@ -52,6 +52,12 @@ def compare_triples(model, perplexities_pos, perplexities_neg):
     
     return plt
 
+def get_pvals(model, graph, r, n):
+    filename = f"results_{model}_{graph}_{r}x{n}.txt"
+    with open(filename, 'r') as f:
+        p_vals = [float(x) for x in f.readlines()]
+        return p_vals
+
 def plot_results(model_graph_pairings, runs, samples):
     data = {
         'values': [],
@@ -59,14 +65,12 @@ def plot_results(model_graph_pairings, runs, samples):
     }
 
     for model, graph in model_graph_pairings:
-        filename = f"results_{model}_{graph}_{runs}x{samples}.txt"
-        with open(filename, 'r') as f:
-            p_vals = [float(x) for x in f.readlines()]
+        p_vals = get_pvals(model, graph, runs, samples)
             
-            data['values'] += p_vals
-            data['runs'] += [f"{model}_{graph}" for i in range(runs)]
+        data['values'] += p_vals
+        data['runs'] += [f"{model}_{graph}" for i in range(runs)]
 
-            print(f"{model}_{graph}", p_vals)
+        print(f"{model}_{graph}", p_vals)
  
     sns.set_theme(style="ticks")
 
