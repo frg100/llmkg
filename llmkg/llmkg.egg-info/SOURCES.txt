@@ -1,0 +1,10 @@
+LICENCE
+MANIFEST.in
+README.md
+pyproject.toml
+setup.cfg
+llmkg/llmkg.egg-info/PKG-INFO
+llmkg/llmkg.egg-info/SOURCES.txt
+llmkg/llmkg.egg-info/dependency_links.txt
+llmkg/llmkg.egg-info/requires.txt
+llmkg/llmkg.egg-info/top_level.txt

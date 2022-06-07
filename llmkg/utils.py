@@ -52,8 +52,8 @@ def compare_triples(model, perplexities_pos, perplexities_neg):
     
     return plt
 
-def get_pvals(model, graph, r, n):
-    filename = f"results_{model}_{graph}_{r}x{n}.txt"
+def get_pvals(basepath, model, graph, r, n):
+    filename = os.path.join(basepath, f"results_{model}_{graph}_{r}x{n}.txt")
     with open(filename, 'r') as f:
         p_vals = [float(x) for x in f.readlines()]
         return p_vals

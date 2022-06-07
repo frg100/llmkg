@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
-Name: llmkg-frg100
-Version: 0.0.1
+Name: llmkg
+Version: 0.0.5
 Summary: A library for evaluating Language Models using Knowledge Graphs
 Home-page: https://github.com/frg100/llm-kg-eval
 Author: Federico Reyes Gomez
