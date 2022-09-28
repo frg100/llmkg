@@ -1,3 +1,3 @@
 # LLMKG
 
-https://github.com/frg100/llmkg/blob/main/LLMKG.pdf
+https://github.com/frg100/llmkg/raw/main/LLMKG.pdf
